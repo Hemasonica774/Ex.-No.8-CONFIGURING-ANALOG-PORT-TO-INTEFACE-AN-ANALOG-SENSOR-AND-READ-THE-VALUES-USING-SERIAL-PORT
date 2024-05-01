@@ -151,14 +151,46 @@ This module also includes a potentiometer that will fix the threshold value, & t
 
 ##  Program 
 
+```
+
+#include "main.h"
+#include"stdio.h"
+uint32_t adcvalue;
+#if defined (_ICCARM_) || defined (__ARMCC_VERSION)
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#elif defined(_GNUC_)
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#endif
+PUTCHAR_PROTOTYPE
+{
+HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+return ch;
+}
+while(1)
+{
+HAL_ADC_Start(&hadc1);
+HAL_ADC_PollForConversion(&hadc1,100);
+adcvalue = HAL_ADC_GetValue(&hadc1);
+HAL_ADC_Stop(&hadc1);
+HAL_Delay(500);
+printf("ADC VALUE:%ld\n",adcvalue);
+}
+
+```
+
+
+## Output :
+
+![281302948-9a3d4355-9fd6-4e89-9a0b-6fd1def6e0ba](https://github.com/Hemasonica774/Ex.-No.8-CONFIGURING-ANALOG-PORT-TO-INTEFACE-AN-ANALOG-SENSOR-AND-READ-THE-VALUES-USING-SERIAL-PORT/assets/118361409/b2fa123d-ecc6-411c-8a5e-45616f1008b1)
+
+
+![281303206-6dbbca38-4016-4ddc-8e36-754e56293672](https://github.com/Hemasonica774/Ex.-No.8-CONFIGURING-ANALOG-PORT-TO-INTEFACE-AN-ANALOG-SENSOR-AND-READ-THE-VALUES-USING-SERIAL-PORT/assets/118361409/b4b771a2-ac7a-4628-834b-158c375f5491)
+
 
  
-
 ## Result :
- 
-## Output  :
 
-
+ADC channel for interfacing an analog sensor is configured and the values on the serial utility port is measured
 
 
 
